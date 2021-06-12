@@ -1,9 +1,10 @@
 import os
-from os.path import join, dirname
+from os.path import join
 from dotenv import load_dotenv
 
-class Settings_:
-    def __init__(self, dotenv_path: str = join(os.getcwd(), '.env')):
+class Settings:
+    def __init__(self, dotenv_path: str = '.env'):
+        self.dotenv_path = dotenv_path
         self.reload_env(dotenv_path)
 
     def reload_env(self, dotenv_path: str):
@@ -18,18 +19,15 @@ class Settings_:
         self.__dict__ = dict(self.__dict__, **tokens)
 
     def set_access_token(self, key: str, value: str):
-        import os
-        if not self.has_access_token(key):
-            with open(".env", "a") as f:
-                f.write(f'{key}={str(value)}\n')
-
         self.update_tokens({key: value})
+        with open(self.dotenv_path, "w") as f:
+            for k,i in __dict__.items():
+                f.write('{}="{}"\n'.format(k, i))
 
     def has_access_token(self, key):
         return key in self.__dict__.keys() and self.__dict__[key] is not None and self.__dict__[key] is not ''
 
-Settings = Settings_()
-
 if __name__ == '__main__':
-    print(Settings.__dict__)
+    settings = Settings()
+    print(settings.__dict__)
     
