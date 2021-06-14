@@ -21,7 +21,7 @@ class Settings:
     def set_access_token(self, key: str, value: str):
         self.update_tokens({key: value})
         with open(self.dotenv_path, "w") as f:
-            for k,i in __dict__.items():
+            for k,i in self.__dict__.items():
                 f.write('{}="{}"\n'.format(k, i))
 
     def has_access_token(self, key):
