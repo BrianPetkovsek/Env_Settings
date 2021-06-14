@@ -3,7 +3,7 @@ from os.path import join
 from dotenv import load_dotenv
 
 class Settings:
-    def __init__(self, dotenv_path: str = '.env'):
+    def __init__(self, dotenv_path: str = join(os.getcwd(), '.env')):
         self.dotenv_path = dotenv_path
         self.reload_env(dotenv_path)
 
